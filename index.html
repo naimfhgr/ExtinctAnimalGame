@@ -1,15 +1,47 @@
 <!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>[titel hier einfügen]</title>
-</head>
-<body>
-    <main>
-        <h1>Hoi Webseite</h1>
-    </main>
-    <script src="js/script.js" type="module"></script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Extinct Animal Dig Game</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <h1>Dig for Extinct Animals!</h1>
+
+    <p class="subtext">
+      Welcome to the <strong>Extinct Animal Dig Game!</strong> Step into a world
+      where extinct animals come back to life — through data, clues, and your
+      curiosity. <br /><br />
+      In this game, you’re a digital explorer on a mission to uncover the
+      stories of species lost to time. Simply click on a mound and you may find
+      an extinct animal. Can you find them all?
+      <br /><br />
+      <strong>Instructions:</strong> Click on the game area to dig. If you
+      uncover an extinct animal, a pop-up will reveal its story. <br /><br />
+      <strong>Are you ready to rediscover what the world has forgotten?</strong>
+    </p>
+
+    <div id="game-area"></div>
+
+    <!-- Pop-up Info Box -->
+    <div id="animal-popup">
+      <div class="popup-content">
+        <img
+          class="animal-image"
+          src="assets/fallback.png"
+          alt="Animal Image"
+        />
+        <h2 class="animal-name">Animal Name</h2>
+        <p class="animal-last-seen">Last Seen: Unknown</p>
+        <p class="animal-region">Region: Unknown</p>
+        <p class="animal-description">
+          Description of the animal will appear here.
+        </p>
+        <button id="close-popup">Close</button>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
 </html>

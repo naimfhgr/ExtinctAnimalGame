@@ -1,8 +1,127 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 body {
-    background: yellow;
+  font-family: Arial, sans-serif;
+  background-color: #624435;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+}
+
+h1 {
+  color: #ffffff;
+  text-align: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 5;
+}
+
+.subtext {
+  color: #ffffff;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+#game-area,
+#game-area * {
+  cursor: url("../assets/shovel.cur") 20 100, auto;
+}
+
+#game-area {
+  width: 100%;
+  max-width: 1000px;
+  height: 600px;
+  margin: 40px auto;
+  position: relative;
+  background-color: #ad9f83;
+  background-image: radial-gradient(#654321 8%, transparent 8%),
+    radial-gradient(#5a3c22 8%, transparent 8%);
+  background-position: 0 0, 16px 16px;
+  background-size: 32px 32px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.interactive-element {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  transition: transform 0.2s ease;
+  z-index: 1;
+}
+
+.mud {
+  background-image: url("../assets/mud.webp");
+  background-size: 100% 100%;
+}
+
+.bone_normal {
+  background-image: url("../assets/bone_normal.webp");
+  background-size: 100% 100%;
+}
+
+.bone_broken {
+  background-image: url("../assets/bone_broken.webp");
+  background-size: 100% 100%;
+}
+
+.interactive-element:hover {
+  transform: scale(1.1);
+}
+
+/* Popup Styles */
+#animal-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: white;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 90%;
+  width: 400px;
+  z-index: 10;
+}
+
+#animal-popup.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.animal-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.popup-content p {
+  text-align: left;
+}
+
+#close-popup {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
