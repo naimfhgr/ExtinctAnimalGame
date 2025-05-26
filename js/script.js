@@ -1,35 +1,56 @@
-const gameArea = document.getElementById("game-area");
-const areaRect = gameArea.getBoundingClientRect();
+const gameArea = document.querySelector("#game-area");
 const patchSize = 100;
+const numPatches = 10;
 const patches = [];
-const NUM_PATCHES = 10;
 
-// Utility to avoid overlap
+// Patch-Erstellung initial starten
+initMudPatches(numPatches);
+
+// Popup schließen
+document.querySelector("#close-popup").addEventListener("click", () => {
+  document.querySelector("#animal-popup").classList.remove("visible");
+});
+
+// Hauptfunktion: Patches platzieren
+function initMudPatches(count) {
+  for (let i = 0; i < count; i++) {
+    const coords = findValidPatchCoordinates();
+    if (!coords) continue;
+
+    patches.push(coords);
+    createInteractiveElement(coords);
+  }
+}
+
+// Zufällige gültige Koordinaten berechnen (ohne Überlappung)
+function findValidPatchCoordinates() {
+  let attempts = 0;
+  while (attempts < 100) {
+    const x = Math.random() * (gameArea.clientWidth - patchSize);
+    const y = Math.random() * (gameArea.clientHeight - patchSize);
+    if (!isOverlapping(x, y)) {
+      return { x, y };
+    }
+    attempts++;
+  }
+  return null;
+}
+
+// Prüfen ob neue Koordinaten mit bestehenden überlappen
 function isOverlapping(x, y) {
-  return patches.some((p) => {
-    return Math.abs(p.x - x) < patchSize && Math.abs(p.y - y) < patchSize;
+  return patches.some((patch) => {
+    return (
+      Math.abs(patch.x - x) < patchSize && Math.abs(patch.y - y) < patchSize
+    );
   });
 }
 
-// Create mud patches
-for (let i = 0; i < NUM_PATCHES; i++) {
-  let x, y;
-  let attempts = 0;
-  do {
-    x = Math.random() * (gameArea.clientWidth - patchSize);
-    y = Math.random() * (gameArea.clientHeight - patchSize);
-    attempts++;
-    if (attempts > 100) break; // safety
-  } while (isOverlapping(x, y));
-
-  patches.push({ x, y });
-
+// Interaktives Element erstellen und ins DOM einfügen
+function createInteractiveElement({ x, y }) {
   const element = document.createElement("div");
   element.classList.add("interactive-element", "mud");
   element.style.left = `${x}px`;
   element.style.top = `${y}px`;
-
-  // Track click count
   element.dataset.clicks = "1";
 
   element.addEventListener("click", async () => {
@@ -43,30 +64,31 @@ for (let i = 0; i < NUM_PATCHES; i++) {
       element.classList.remove("bone_normal");
       element.classList.add("bone_broken");
       const animal = await fetchRandomAnimal();
-      if (animal) displayAnimalInfo(animal);
+      if (animal) {
+        showAnimalPopup(animal);
+      }
     }
   });
 
   gameArea.appendChild(element);
 }
 
-// Fetch extinct animal
+// Tierdaten aus externer API abrufen
 async function fetchRandomAnimal() {
+  const url = "https://extinct-api.herokuapp.com/api/v1/animal/";
   try {
-    const response = await fetch(
-      "https://extinct-api.herokuapp.com/api/v1/animal/"
-    );
+    const response = await fetch(url);
     const result = await response.json();
     return result.data[0];
   } catch (error) {
-    console.error("Error fetching animal:", error);
+    console.error("Fehler beim Laden des Tiers:", error);
     return null;
   }
 }
 
-// Show animal data in popup
-function displayAnimalInfo(animal) {
-  const popup = document.getElementById("animal-popup");
+// Tierdaten im Popup anzeigen
+function showAnimalPopup(animal) {
+  const popup = document.querySelector("#animal-popup");
   popup.querySelector(".animal-image").src =
     animal.imageSrc || "assets/fallback.jpg";
   popup.querySelector(".animal-name").textContent =
@@ -81,8 +103,3 @@ function displayAnimalInfo(animal) {
     animal.shortDesc || "No description available.";
   popup.classList.add("visible");
 }
-
-// Close popup
-document.getElementById("close-popup").addEventListener("click", () => {
-  document.getElementById("animal-popup").classList.remove("visible");
-});
