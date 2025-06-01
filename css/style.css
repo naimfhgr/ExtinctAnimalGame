@@ -1,3 +1,4 @@
+html,
 body {
   font-family: Arial, sans-serif;
   background-image: url("../assets/background.webp");
@@ -8,13 +9,29 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  height: 100%;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This pushes #game-area to the bottom */
   height: 100vh;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.content {
+  padding: 1rem;
+  flex-grow: 1; /* Ensures it fills available space */
+  text-align: center;
 }
 
 h1 {
   color: #ffffff;
   font-family: "Arvo", serif;
-  font-weight: 200;
+  font-weight: 300;
+  font-size: 2.5rem;
   text-align: center;
   margin-top: 20px;
   position: relative;
@@ -23,13 +40,17 @@ h1 {
 
 .subtext {
   color: #ffffff;
+  /* background-color: #8a674a;
+  border: #ffffff 2px solid;
+  border-radius: 20px; */
   max-width: 1200px;
-  margin: 0 auto 2rem;
+  margin: 2rem auto;
+  padding: 1rem;
   text-align: center;
   font-size: 1.1rem;
 }
 
-#game-area,
+body,
 #game-area * {
   cursor: url("../assets/shovel.cur") 20 100, auto;
 }
@@ -37,8 +58,8 @@ h1 {
 #game-area {
   width: 1000px;
   max-width: 100%;
-  height: 300px;
-  margin: 40px auto;
+  height: 400px;
+  margin: 0 auto 20px; /* margin-bottom for spacing */
   position: relative;
   /* background-color: #ad9f83;
   background-image: radial-gradient(#654321 8%, transparent 8%),
@@ -53,8 +74,12 @@ h1 {
 }
 
 .interactive-element {
-  width: 100px;
-  height: 100px;
+  width: 10vw;
+  height: 10vw;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 100px;
+  max-height: 100px;
   background-size: cover;
   background-position: center;
   border-radius: 10px;
@@ -108,6 +133,15 @@ h1 {
   transform: translate(-50%, -50%) scale(1);
 }
 
+#animal-popup,
+#animal-popup * {
+  cursor: default !important;
+}
+
+#animal-popup #close-popup {
+  cursor: pointer !important;
+}
+
 .animal-image {
   width: 100%;
   max-height: 300px;
@@ -130,4 +164,19 @@ h1 {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  #game-area {
+    height: 40vh;
+  }
+
+  .popup-content {
+    font-size: 0.9rem;
+  }
+
+  .interactive-element {
+    width: 14vw;
+    height: 14vw;
+  }
 }
