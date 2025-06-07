@@ -67,6 +67,7 @@ function createInteractiveElement({ x, y }) {
       if (animal) {
         showAnimalPopup(animal);
       }
+      checkAllBroken();
     }
   });
 
@@ -103,3 +104,36 @@ function showAnimalPopup(animal) {
     animal.shortDesc || "No description available.";
   popup.classList.add("visible");
 }
+
+// Wenn alle Knochen ausgegraben wurden, neu laden
+function checkAllBroken() {
+  const allElements = document.querySelectorAll(".interactive-element");
+  const allBroken = Array.from(allElements).every((el) =>
+    el.classList.contains("bone_broken")
+  );
+
+  if (allBroken) {
+    // kurze Pause, dann neu laden
+    setTimeout(() => {
+      document
+        .querySelectorAll(".interactive-element")
+        .forEach((el) => el.remove());
+
+      // Clear internal tracking
+      patches.length = 0;
+
+      // Re-initialize new mud patches
+      initMudPatches(numPatches);
+    }, 1000); // 1 Sekunde Verzögerung
+  }
+}
+
+// Popup schliessen, wenn ausserhalb geklickt wird
+document.addEventListener("click", (e) => {
+  const popup = document.querySelector("#animal-popup");
+  const content = popup.querySelector(".popup-content");
+
+  if (popup.classList.contains("visible") && !content.contains(e.target)) {
+    popup.classList.remove("visible");
+  }
+});
